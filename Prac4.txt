@@ -1,0 +1,44 @@
+def DFS(curNode, destination, graph, maxDepth, visited): 
+    visited.add(curNode) 
+    print("Visiting:", curNode) 
+ 
+    if curNode == destination: 
+        print("Goal Found") 
+        return True 
+    if maxDepth <= 0: 
+        return False 
+    for neighbor in graph[curNode]: 
+        if neighbor not in visited: 
+            if DFS(neighbor, destination, graph, maxDepth - 1, visited): 
+                return True 
+    return False 
+ 
+def iterativeDDFS(curNode, destination, graph, **kwargs):  # Use keyword arguments 
+    maxDepth = kwargs.get('maxDepth', 3)
+    for i in range(maxDepth + 1):  # Include max depth
+        visited = set()  # Reset visited set for each depth iteration
+        if DFS(curNode, destination, graph, i, visited): 
+            return True 
+    return False 
+ 
+def main(): 
+    graph = { 
+        "M": ["N", "Q", "R"], 
+        "N": ["O", "Q", "M"], 
+        "R": ["M"], 
+        "O": ["P", "N"], 
+        "Q": ["M", "N", "P"], 
+        "P": ["O", "Q"] 
+    } 
+ 
+    start_node = input("Enter the start node: ") 
+    end_node = input("Enter the end node: ") 
+    max_depth = int(input("Enter maximum depth: ")) 
+ 
+    if not iterativeDDFS(start_node, end_node, graph, maxDepth=max_depth):  # Pass as keyword argument 
+        print("Path is not available") 
+    else: 
+        print("A path exists") 
+ 
+if __name__ == "__main__": 
+    main() 

@@ -1,0 +1,55 @@
+class PriorityQueue(): 
+    def __init__(self): 
+        self.queue = [] 
+
+    def put(self, node, priority): 
+        self.queue.append((node, priority)) 
+        self.queue = sorted(self.queue, key=lambda x: x[1]) 
+
+    def get(self): 
+        return self.queue.pop(0)[0] 
+
+    def isEmpty(self): 
+        return len(self.queue) == 0 
+
+graph = { 
+    'A': [['B', 'C'], 3], 
+    'B': [['A', 'D', 'E'], 2], 
+    'C': [['A', 'F'], 1], 
+    'D': [['B'], 6], 
+    'E': [['B', 'F'], 1], 
+    'F': [['C', 'E'], 0] 
+} 
+
+def best_first_search(graph, S, D): 
+    visited = {} 
+    parent = {} 
+    bfs_list = [] 
+    pq = PriorityQueue() 
+    
+    for node in graph: 
+        visited[node] = False 
+        parent[node] = None 
+
+    visited[S] = True
+    pq.put(S, graph[S][1]) 
+
+    while not pq.isEmpty(): 
+        node = pq.get()
+        bfs_list.append(node)
+        
+        if node == D:
+            break
+        
+        for neighbour in graph[node][0]:
+            if not visited[neighbour]:
+                visited[neighbour] = True
+                parent[neighbour] = node
+                pq.put(neighbour, graph[neighbour][1])
+
+    print(f"Path from {S} to {D} is:", bfs_list)
+
+# Taking input for source and destination
+S = input("Enter the source node: ")
+D = input("Enter the destination node: ")
+best_first_search(graph, S, D)

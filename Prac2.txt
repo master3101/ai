@@ -1,0 +1,57 @@
+from collections import deque  # Still needed for stack emulation 
+ 
+adj_list = { 
+    'M': ['N', 'Q', 'R'], 
+    'N': ['O', 'Q', 'M'], 
+    'R': ['M'], 
+    'O': ['P', 'N'], 
+    'Q': ['M', 'N'], 
+    'P': ['O', 'Q'] 
+} 
+def dfs(visited, parent, adj_list, u): 
+    visited[u] = True 
+    for v in adj_list[u]: 
+        if not visited[v]: 
+            parent[v] = u 
+            dfs(visited, parent, adj_list, v) 
+ 
+ 
+def find_path(parent, source, target): 
+    path = [] 
+    if parent[target]:  # Check if target is reachable from source 
+        node = target 
+        while node != source: 
+            path.append(node) 
+            node = parent[node] 
+        path.append(source) 
+        path.reverse() 
+    return path 
+ 
+ 
+# Initialization 
+visited = {} 
+parent = {} 
+for node in adj_list.keys(): 
+    visited[node] = False 
+    parent[node] = None 
+ 
+source = input("Enter the source node: ") 
+visited[source] = True 
+ 
+# Use a stack (deque) for DFS exploration (LIFO) 
+stack = deque() 
+stack.append(source) 
+ 
+while stack: 
+    u = stack.pop() 
+    for v in adj_list[u]: 
+        if not visited[v]: 
+            visited[v] = True 
+            parent[v] = u 
+            stack.append(v) 
+target = input("Enter the destination node: ") 
+path = find_path(parent, source, target) 
+if path: 
+    print("Path from", source, "to", target, ":", ' -> '.join(path)) 
+else: 
+    print("Target node unreachable from source") 
