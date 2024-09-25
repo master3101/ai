@@ -22,3 +22,7 @@ print("Accuracy of the model:", accuracy)
 print("Confusion Matrix of the model:") 
 cm = confusion_matrix(y_test, y_pred) 
 print(cm)
+
+
+
+pip install seaborn
