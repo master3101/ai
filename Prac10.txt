@@ -1,0 +1,24 @@
+from sklearn.neighbors import KNeighborsClassifier 
+from sklearn.model_selection import train_test_split 
+from sklearn.datasets import load_iris 
+from sklearn.metrics import confusion_matrix 
+import seaborn as sn 
+import matplotlib.pyplot as plt 
+iris = load_iris() 
+x = iris.data 
+y = iris.target 
+x_train, x_test, y_train, y_test = train_test_split( 
+x, y, test_size=0.3, random_state=1) 
+knn = KNeighborsClassifier(n_neighbors=10) 
+train = knn.fit(x_train, y_train) 
+print("Feature Names:", iris.feature_names) 
+print("Target Names:", iris.target_names) 
+print("Size of the train data:", len(x_train)) 
+print("Size of the test data:", len(x_test)) 
+print("Predicted classes for the test data:") 
+y_pred = train.predict(x_test) 
+accuracy = knn.score(x_test, y_test) 
+print("Accuracy of the model:", accuracy) 
+print("Confusion Matrix of the model:") 
+cm = confusion_matrix(y_test, y_pred) 
+print(cm)

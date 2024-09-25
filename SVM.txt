@@ -1,0 +1,23 @@
+
+from sklearn.datasets import load_iris
+from sklearn import svm
+from sklearn.linear_model import LogisticRegression
+from sklearn import model_selection
+from sklearn import metrics
+iris = load_iris()
+x,y =iris.data, iris.target
+print(f"Feature names: {iris.feature_names}")
+print(f"Labels: {iris.target_names}")
+X_train, X_test, y_train, y_test = model_selection.train_test_split(x,y,test_size=0.4,random_state=42)
+print(f"X train: {X_train}")
+print(f"Y train: {y_train}")
+m1 = svm.SVC(kernel="linear")
+m2 = LogisticRegression(random_state=42)
+m1.fit(X_train,y_train)
+m2.fit(X_train,y_train)
+print(f"Test data: {X_test}")
+y_pred1 = m2.predict(X_test)
+y_pred = m1.predict(X_test)
+print(f"Accuracy: {metrics.accuracy_score(y_test,y_pred1)}")
+scores= model_selection.cross_val_score(m1,x,y,cv=5,scoring="accuracy")
+print(scores.mean())

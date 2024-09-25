@@ -1,0 +1,43 @@
+import heapq 
+graph = {
+    "A": ({"B": 5, "C": 7}, 10),  
+    "B": ({"A": 5, "D": 3}, 6),   
+    "C": ({"A": 7, "D": 4}, 8),   
+    "D": ({"B": 3, "C": 4, "E": 2}, 3),  
+    "E": ({"D": 2}, 0)
+}
+   
+def heuristic(node, goal): 
+    return graph[node][1] 
+ 
+def a_star(graph, start, goal): 
+    frontier = [] 
+    heapq.heappush(frontier, (heuristic(start, goal), 0, start, [start])) 
+    came_from = {start: None} 
+    cost_so_far = {start: 0} 
+ 
+    while frontier: 
+        _, current_cost, current_node, path = heapq.heappop(frontier) 
+ 
+        if current_node == goal: 
+            return path, current_cost 
+ 
+        for next_node, cost in graph[current_node][0].items(): 
+            new_cost = current_cost + cost 
+            if next_node not in cost_so_far or new_cost < cost_so_far[next_node]: 
+                cost_so_far[next_node] = new_cost 
+                priority = new_cost + heuristic(next_node, goal) 
+                heapq.heappush(frontier, (priority, new_cost, next_node, path + [next_node])) 
+                came_from[next_node] = current_node 
+ 
+    return None, float("inf") 
+ 
+source = input("Enter Source vertex: ") 
+dest = input("Enter Destination vertex: ") 
+
+path, cost = a_star(graph, source, dest) 
+if path: 
+    print("Path found:", path) 
+    print("Total cost:", cost) 
+else: 
+    print("Path not found") 
