@@ -30,3 +30,8 @@ for m, lable in zip([m1, m2, m3, voting_clf_hard], new_labels):
     scores = model_selection.cross_val_score(m, x,y, cv=5, scoring='accuracy')
     print('------------------------')
     print("Accuracy: %0.2f [%s]" %(scores.mean(), label))
+
+
+
+
+pip install scikit-learn
