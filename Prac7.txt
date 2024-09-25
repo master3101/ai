@@ -39,3 +39,5 @@ save this file as dtree in the python folder and save as .scv
 1	1	1	1	Leave
 0	0	0	1	Leave
 1	0	1	1	Leave
+
+pip install pandas scikit-learn matplotlib
